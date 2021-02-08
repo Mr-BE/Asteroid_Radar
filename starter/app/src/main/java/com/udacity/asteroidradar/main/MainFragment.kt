@@ -76,6 +76,7 @@ class MainFragment : Fragment() {
             R.id.show_saved_menu -> {
                 viewModel.showSelectedOption(SelectedOption.SAVED)
             }
+            else -> viewModel.showSelectedOption(SelectedOption.SAVED)
         }
         return true
     }
