@@ -29,11 +29,6 @@ class MainViewModel (application: Application): ViewModel() {
     val navigateToDetails: LiveData<Asteroid>
         get() = _navigateToDetails
 
-//    //list of asteroids
-//   private val _asteroidList = MutableLiveData<List<DatabaseAsteroid>> ()
-//    val databaseAsteroidList: LiveData<List<DatabaseAsteroid>>
-//    get() = _asteroidList
-
 
     init {
         //refresh list from repo
@@ -71,23 +66,6 @@ class MainViewModel (application: Application): ViewModel() {
     fun displayAsteroidsDone() {
         _navigateToDetails.value = null
     }
-
-//    private fun populateList() {
-//
-//        val a1 = DatabaseAsteroid(0L, "codeName", "10/10/2021", 2.4, 1.2,
-//        456.3, 12.3, true)
-//
-//
-//        val a2 = DatabaseAsteroid(1L, "code", "13/10/2021", 34.4, 2.2,
-//            4.3, 120.3, false)
-//
-//        val a3 = DatabaseAsteroid(3L, "codeName", "10/04/2021", 2.4, 1.2,
-//            4.3, 2.3, true)
-//
-//            var list = mutableListOf<DatabaseAsteroid>(a1, a2, a3)
-//
-//        _asteroidList.value = list
-//    }
 
     /*
     * Factory for constructing MainViewModel with param

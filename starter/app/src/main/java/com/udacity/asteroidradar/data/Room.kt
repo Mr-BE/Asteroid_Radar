@@ -27,6 +27,7 @@ interface AsteroidDao {
     @Query("delete from DatabaseAsteroid where closeApproachDate between :yesterday and :endDate")
     fun deletePreviousAsteroids(yesterday: String, endDate: String)
 }
+
 //Picture Of the Day (POD) dao
 @Dao
 interface PodDao{
@@ -61,7 +62,6 @@ fun getDatabase(context: Context): AsteroidDatabase {
                 context.applicationContext,
                 AsteroidDatabase::class.java, "asteroids"
             ).fallbackToDestructiveMigration().build()
-
         }
     }
     return INSTANCE
