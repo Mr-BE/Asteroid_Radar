@@ -1,13 +1,12 @@
 package com.udacity.asteroidradar.main
 import android.app.Application
 import androidx.lifecycle.*
-import com.udacity.asteroidradar.data.DatabaseAsteroid
 import com.udacity.asteroidradar.data.getDatabase
-import com.udacity.asteroidradar.main.MainFragment.*
+import com.udacity.asteroidradar.domain.Asteroid
+import com.udacity.asteroidradar.main.MainFragment.SelectedOption
 import com.udacity.asteroidradar.repository.AsteroidRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 
 
 class MainViewModel (application: Application): ViewModel() {
@@ -23,7 +22,12 @@ class MainViewModel (application: Application): ViewModel() {
     //handle asteroid filter
     private val _selectedOption = MutableLiveData<SelectedOption>()
     val selectedOption: LiveData<SelectedOption>
-    get() = _selectedOption
+        get() = _selectedOption
+
+    //navigation variable
+    private val _navigateToDetails = MutableLiveData<Asteroid>()
+    val navigateToDetails: LiveData<Asteroid>
+        get() = _navigateToDetails
 
 //    //list of asteroids
 //   private val _asteroidList = MutableLiveData<List<DatabaseAsteroid>> ()
@@ -44,17 +48,28 @@ class MainViewModel (application: Application): ViewModel() {
         }
     }
 
+    //load list of asteroids based on overflow menu filters
     val asteroidList = Transformations.switchMap(_selectedOption){
         when (it) {
             SelectedOption.TODAY -> asteroidsRepository.asteroids
             SelectedOption.SAVED -> asteroidsRepository.asteroidSaved
             SelectedOption.WEEK -> asteroidsRepository.asteroidsWeek
-            else -> asteroidsRepository.asteroids
+            else -> asteroidsRepository.asteroidSaved
         }
     }
 
-     fun showSelectedOption(selectedOption: SelectedOption) {
+    fun showSelectedOption(selectedOption: SelectedOption) {
         _selectedOption.value = selectedOption
+    }
+
+    //set navigation variable when asteroid item is clicked
+    fun displayAsteroidDetails(asteroid: Asteroid) {
+        _navigateToDetails.value = asteroid
+    }
+
+    //done navigating to details
+    fun displayAsteroidsDone() {
+        _navigateToDetails.value = null
     }
 
 //    private fun populateList() {
