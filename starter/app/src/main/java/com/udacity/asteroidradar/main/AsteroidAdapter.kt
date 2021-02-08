@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.data.DatabaseAsteroid
 import com.udacity.asteroidradar.databinding.ItemAsteroidBinding
+import com.udacity.asteroidradar.domain.Asteroid
 
 class AsteroidAdapter : androidx.recyclerview.widget.ListAdapter<Asteroid, AsteroidAdapter.ViewHolder>(ViewHolder.ShoeDiffCallback()) {
 

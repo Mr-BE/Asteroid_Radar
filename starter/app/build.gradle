@@ -59,14 +59,20 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_coroutines"
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_coroutines_adapter"
 
+    // Logging
+    implementation "com.jakewharton.timber:timber:$version_timber"
+
     implementation "androidx.recyclerview:recyclerview:1.1.0"
 
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation "androidx.room:room-runtime:$version_room"
     kapt "androidx.room:room-compiler:$version_room"
+    implementation "androidx.room:room-ktx:$version_room"
 
     implementation "android.arch.work:work-runtime-ktx:1.0.1"
+
+    implementation "net.danlew:android.joda:$version_joda"
 
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
