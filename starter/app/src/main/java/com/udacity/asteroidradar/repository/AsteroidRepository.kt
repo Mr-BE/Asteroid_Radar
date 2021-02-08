@@ -5,13 +5,13 @@ import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.Constants.API_KEY
 import com.udacity.asteroidradar.api.getEndDay
 import com.udacity.asteroidradar.api.getToday
+import com.udacity.asteroidradar.api.getYesterday
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.data.AsteroidDatabase
 import com.udacity.asteroidradar.data.asDomainModel
 import com.udacity.asteroidradar.data.asDomainModelPicture
 import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.domain.PictureOfDay
-import com.udacity.asteroidradar.network.AsteroidService
 import com.udacity.asteroidradar.network.Network
 import com.udacity.asteroidradar.network.NetworkAsteroid
 import com.udacity.asteroidradar.network.asDatabaseModel
@@ -61,18 +61,23 @@ class AsteroidRepository (private val database: AsteroidDatabase){
                     it.estimatedDiameter,
                     it.relativeVelocity,
                     it.distanceFromEarth,
-                    it.isPotentiallyHazardous)
+                    it.isPotentiallyHazardous
+                )
             }
             database.asteroidDao.insertAll(*networkAsteroidList.asDatabaseModel())
-
         }
+    }
 
-
+    //delete old asteroid data
+    suspend fun deleteOldAsteroids() {
+        withContext(Dispatchers.IO) {
+            database.asteroidDao.deletePreviousAsteroids(getYesterday(), getEndDay())
+        }
     }
 
     //refresh POD
     suspend fun refreshPictureOfDay() {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             val pod = asteroidApiService.getPictureOfDay(API_KEY)
             database.podDao.insertPOD(pod.asDatabaseModel())
         }

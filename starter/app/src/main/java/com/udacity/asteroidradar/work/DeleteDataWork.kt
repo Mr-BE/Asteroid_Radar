@@ -1,0 +1,33 @@
+package com.udacity.asteroidradar.work
+
+import android.content.Context
+import androidx.work.CoroutineWorker
+import androidx.work.WorkerParameters
+import com.udacity.asteroidradar.data.getDatabase
+import com.udacity.asteroidradar.repository.AsteroidRepository
+import timber.log.Timber
+
+//refresh asteroid db
+class DeleteDataWork(appContext: Context, params: WorkerParameters) :
+    CoroutineWorker(appContext, params) {
+
+    companion object {
+        const val WORK_NAME = "RefreshDataWorker"
+    }
+
+    override suspend fun doWork(): Result {
+        //db instance
+        val database = getDatabase(applicationContext)
+        //repo instance
+        val repository = AsteroidRepository(database)
+
+        //check if work executes successfully
+        return try {
+            repository.deleteOldAsteroids()
+            Result.success()
+        } catch (e: Exception) {
+            Timber.e(e)
+            Result.retry()
+        }
+    }
+}

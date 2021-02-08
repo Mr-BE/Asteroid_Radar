@@ -21,8 +21,11 @@ interface AsteroidDao {
 
     //add asteroids to cache overwriting conflicting data
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll (vararg asteroids: DatabaseAsteroid)
+    suspend fun insertAll(vararg asteroids: DatabaseAsteroid)
 
+    //delete asteroids from previous day
+    @Query("delete from DatabaseAsteroid where closeApproachDate between :yesterday and :endDate")
+    fun deletePreviousAsteroids(yesterday: String, endDate: String)
 }
 //Picture Of the Day (POD) dao
 @Dao
@@ -30,6 +33,7 @@ interface PodDao{
 
     @Query("select * from DatabasePictureOfDay")
     fun getPictureOfDay(): LiveData<DatabasePictureOfDay>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPOD(pictureOfDay: DatabasePictureOfDay)
 
