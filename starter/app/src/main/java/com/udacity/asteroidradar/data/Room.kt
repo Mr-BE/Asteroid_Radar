@@ -24,8 +24,8 @@ interface AsteroidDao {
     suspend fun insertAll(vararg asteroids: DatabaseAsteroid)
 
     //delete asteroids from previous day
-    @Query("delete from DatabaseAsteroid where closeApproachDate between :yesterday and :endDate")
-    fun deletePreviousAsteroids(yesterday: String, endDate: String)
+    @Query("delete from DatabaseAsteroid where closeApproachDate between :yesterday and :pastDate")
+    fun deletePreviousAsteroids(yesterday: String, pastDate: String)
 }
 
 //Picture Of the Day (POD) dao

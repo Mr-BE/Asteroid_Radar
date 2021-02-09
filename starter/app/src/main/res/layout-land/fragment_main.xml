@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
-                    android:contentDescription="@string/nasa_picture_of_the_day"
+                    android:contentDescription="@{viewModel.pictureOfDay.title}"
                     app:imageUrl="@{viewModel.pictureOfDay.url}"
                     app:srcCompat="@drawable/placeholder_picture_of_day" />
 

@@ -8,7 +8,7 @@ import com.udacity.asteroidradar.repository.AsteroidRepository
 import timber.log.Timber
 
 //refresh asteroid db
-class DeleteDataWork(appContext: Context, params: WorkerParameters) :
+class RefreshDataWork(appContext: Context, params: WorkerParameters) :
     CoroutineWorker(appContext, params) {
 
     companion object {
@@ -23,6 +23,7 @@ class DeleteDataWork(appContext: Context, params: WorkerParameters) :
 
         //check if work executes successfully
         return try {
+            repository.refreshAsteroids()
             repository.deleteOldAsteroids()
             Result.success()
         } catch (e: Exception) {

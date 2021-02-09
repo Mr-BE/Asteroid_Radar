@@ -2,10 +2,7 @@ package com.udacity.asteroidradar.work
 
 import android.app.Application
 import android.os.Build
-import androidx.work.Constraints
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +30,8 @@ class AsteroidApplication : Application() {
         //constraints for running background work
         val constraints = Constraints.Builder()
             .setRequiresBatteryNotLow(true)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresCharging(true)
             .apply {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     setRequiresDeviceIdle(true)
@@ -40,7 +39,7 @@ class AsteroidApplication : Application() {
             }.build()
 
         //set up repeating requests
-        val repeatingRequest = PeriodicWorkRequestBuilder<DeleteDataWork>(
+        val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWork>(
             1,
             TimeUnit.DAYS
         ).setConstraints(constraints)
@@ -48,7 +47,7 @@ class AsteroidApplication : Application() {
 
         //schedule work as unique
         WorkManager.getInstance().enqueueUniquePeriodicWork(
-            DeleteDataWork.WORK_NAME,
+            RefreshDataWork.WORK_NAME,
             //keep existing request if one already exist
             ExistingPeriodicWorkPolicy.KEEP,
             repeatingRequest

@@ -3,10 +3,7 @@ package com.udacity.asteroidradar.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.Constants.API_KEY
-import com.udacity.asteroidradar.api.getEndDay
-import com.udacity.asteroidradar.api.getToday
-import com.udacity.asteroidradar.api.getYesterday
-import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.api.*
 import com.udacity.asteroidradar.data.AsteroidDatabase
 import com.udacity.asteroidradar.data.asDomainModel
 import com.udacity.asteroidradar.data.asDomainModelPicture
@@ -71,7 +68,7 @@ class AsteroidRepository (private val database: AsteroidDatabase){
     //delete old asteroid data
     suspend fun deleteOldAsteroids() {
         withContext(Dispatchers.IO) {
-            database.asteroidDao.deletePreviousAsteroids(getYesterday(), getEndDay())
+            database.asteroidDao.deletePreviousAsteroids(getYesterday(), getPastDate())
         }
     }
 

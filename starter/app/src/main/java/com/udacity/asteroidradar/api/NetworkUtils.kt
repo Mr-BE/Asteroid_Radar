@@ -67,13 +67,22 @@ fun getToday(): String {
 //get yesterday's date
 fun getYesterday(): String {
     val calendar = Calendar.getInstance()
-    calendar.add(Calendar.DAY_OF_YEAR, 1)
+    calendar.add(Calendar.DAY_OF_YEAR, -1)
     val currentTime = calendar.time
     val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
     return dateFormat.format(currentTime)
 }
 
-//get end date (7 days)
+//get yesterday's date
+fun getPastDate(): String {
+    val calendar = Calendar.getInstance()
+    calendar.add(Calendar.DAY_OF_YEAR, -7)
+    val currentTime = calendar.time
+    val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
+    return dateFormat.format(currentTime)
+}
+
+//get end date (7 days ahead)
 fun getEndDay(): String {
     val calendar = Calendar.getInstance()
     calendar.add(Calendar.DAY_OF_YEAR, 7)
